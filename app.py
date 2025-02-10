@@ -3,12 +3,13 @@ import os
 import streamlit as st
 from pinecone.grpc import PineconeGRPC as Pinecone
 from openai import OpenAI
-from dotenv import load_dotenv
-load_dotenv()
+import toml
+
+config = toml.load('config.toml')
 
 # Hosting local client (LM studio), work on openai API
-client = OpenAI(base_url="https://api.groq.com/openai/v1", api_key=os.getenv('GROQ_API_KEY'))
-pc = Pinecone(api_key=os.getenv('PC_API_KEY'))
+client = OpenAI(base_url="https://api.groq.com/openai/v1", api_key=config['api_key']['GROQ_API_KEY'])
+pc = Pinecone(api_key=config['api_key']['PC_API_KEY'])
 index = pc.Index('akgec-data')
 
 # Similarity Search and context generation from pinecone

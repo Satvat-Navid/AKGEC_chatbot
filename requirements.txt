@@ -1,6 +1,6 @@
 numpy
 pandas
-python-dotenv
+toml
 pinecone[grpc]
 openai
 streamlit
