@@ -5,7 +5,7 @@ from pinecone.grpc import PineconeGRPC as Pinecone
 from openai import OpenAI
 import toml
 
-secrets = toml.load('secrets.toml')
+secrets = toml.load('.streamlit\secrets.toml')
 
 # Hosting local client (LM studio), work on openai API
 client = OpenAI(base_url="https://api.groq.com/openai/v1", api_key=secrets['api_key']['GROQ_API_KEY'])
