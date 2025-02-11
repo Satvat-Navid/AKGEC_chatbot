@@ -1,11 +1,9 @@
 import time
-import os
 import streamlit as st
 from pinecone.grpc import PineconeGRPC as Pinecone
 from openai import OpenAI
-import toml
 
-# Hosting local client (LM studio), work on openai API
+# Groq work through openai API
 client = OpenAI(base_url="https://api.groq.com/openai/v1", api_key=st.secrets['GROQ_API_KEY'])
 pc = Pinecone(api_key=st.secrets['PC_API_KEY'])
 index = pc.Index('akgec-data')
@@ -33,7 +31,7 @@ def response(query, k):
 
     return context
 
-#funtion for calling chat model
+# Function for calling chat model
 def call_openai_chat_model(model, user_input, context):
     response = client.chat.completions.create(
         model=model,
@@ -53,9 +51,13 @@ def call_openai_chat_model(model, user_input, context):
         stream=False
     )
     return response.choices[0].message.content
-     
+
+    
 # Streamlit Application
 st.title("AKGEC ChatBot")
+
+if 'question_num' not in st.session_state:
+    st.session_state['question_num'] = 0
 
 if 'messages' not in st.session_state:
     st.session_state['messages'] = []
@@ -63,10 +65,12 @@ if 'messages' not in st.session_state:
 def add_message():
     user_input = st.session_state["user_input"]
     if user_input:
+        st.session_state['question_num'] += 1  # Increment question_num in session state
         start = time.time()
+        st.session_state['messages'].append((f"Q:{st.session_state['question_num']}", "--------------------------------------------------->"))
         st.session_state['messages'].append(("User", user_input))
         context = response(user_input, k=5)
-        ai_response = call_openai_chat_model(model="llama-3.3-70b-versatile", user_input=user_input, context=context)
+        ai_response = call_openai_chat_model(model="llama3-70b-8192", user_input=user_input, context=context)
         chat_end = time.time()
         t = f"{(chat_end-start):.2f} s"
         st.session_state['messages'].append(("AI", ai_response))
@@ -75,7 +79,12 @@ def add_message():
 
 # Display messages
 for role, message in st.session_state['messages']:
-    st.write(f"**{role}**:  {message}")
+    if role == "AI":
+        st.write(f'<span style="color:Red; font-weight:bold; font-style:oblique; font-size: 130%">{role}</span>: {message}', unsafe_allow_html=True)
+    elif role == "Time":
+        st.write(f'<span style="color:DodgerBlue; font-weight:bold; font-style:oblique; font-size: 130%">{role}</span>: {message}', unsafe_allow_html=True)
+    else:
+        st.write(f'<span style="color:green; font-weight:bold; font-style:oblique; font-size: 130%">{role}</span>: {message}', unsafe_allow_html=True)
 
 # User input
 st.text_input("You:", key="user_input", on_change=add_message)
@@ -83,3 +92,4 @@ st.text_input("You:", key="user_input", on_change=add_message)
 # Clear chat
 if st.button("Clear Chat"):
     st.session_state['messages'] = []
+    st.session_state['question_num'] = 0
