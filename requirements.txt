@@ -3,4 +3,7 @@ pandas
 toml
 pinecone[grpc]
 openai
+langchain
+langchain_community
 streamlit
+ipykernel
