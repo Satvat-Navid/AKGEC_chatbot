@@ -11,7 +11,8 @@ index = pc.Index('akgec-data')
 # Similarity Search and context generation from pinecone
 def response(query, k):
     query_embedding = pc.inference.embed(
-        model="multilingual-e5-large",
+        # model="multilingual-e5-large",
+        model="llama-text-embed-v2",
         inputs=[query],
         parameters={
             "input_type": "query"
