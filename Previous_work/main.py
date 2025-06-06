@@ -143,42 +143,44 @@ Incorporate tables where they enhance clarity and understanding."""},
     )
     return ai_response.choices[0].message.content
 
-# Streamlit chat app
-st.title("AKGEC Chatbot")
-
-if "history" not in st.session_state:
-    st.session_state.history = ""
-if "chat" not in st.session_state:
-    st.session_state.chat = []
-
-user_input = st.chat_input("Type your message...")
-
-if user_input:
-    # Summarize history if present
-    if st.session_state.history:
-        st.session_state.history = summerize(GENERAL_MODEL, st.session_state.history, 500)
-    # Prepare messages for context tool
+# main loop
+while True:
+    flag = 0
+    history = ""
+    chat_limit = 10
     M1 = [
         {"role": "system", "content": """You are a prompt generator designed to facilitate similarity searches within a vector database .
          Use the tool to retrieve relevant context based on the generated prompt .
          Ensure the prompt aligns with the provided user input and conversation history to maintain coherence and accuracy during retrieval .
          Maintain a contextual approach . Do not use tool if user greets or thanks .
          Add all the necessary detail in the PROMPT from the conversation history ."""},
-        {"role": "assistant", "content": st.session_state.history},
-        {"role": "user", "content": user_input}
+        {"role": "assistant", "content": f"A chronological summary of the conversation history: {history}."},
+        {"role": "user", "content": "hello"}
     ]
-    db_context = context(model=TOOL_MODEL, message=M1)
-    temp = f""" PREVIOUS : "{st.session_state.history}" QUERY : "{user_input}" ANSWER : "{db_context}" """
-    reply = response(GENERAL_MODEL, user_input, db_context)
-    st.session_state.chat.append({"role": "user", "content": user_input})
-    st.session_state.chat.append({"role": "assistant", "content": reply})
-    st.session_state.history = temp
+    for i in range(chat_limit):
+        query = input("Query: ")
+        S = time.time()
+        if query == "q":
+            flag = 1
+            break
 
-# Display chat history
-for msg in st.session_state.chat:
-    if msg["role"] == "user":
-        st.chat_message("user").write(msg["content"])
-    else:
-        st.chat_message("assistant").write(msg["content"])
+        if len(history):
+            history = summerize(GENERAL_MODEL, history, 500)
+        M1[1] = {"role": "assistant", "content": history}
+        M1[2] = {"role": "user", "content": query}
+        print("----------------------------------->\n")
+        print("history:---------", history , "\n")
+        print(len(history)/4)
+        db_context = context(model=TOOL_MODEL, message=M1) 
+        temp = f""" PREVIOUS : "{history}" QUERY : "{query}" ANSWER : "{db_context}" """
+        reply = response(GENERAL_MODEL, query, db_context )
+        history = temp
+        # print(answer.tool_calls)
+        print(f"context:--------\n {db_context} \n")
+        print(len(db_context)/4)
+        print(f"####> {reply}")
+        E = time.time()
+        print("\n", S - E , "s")
 
-        
+    if flag:
+        break
