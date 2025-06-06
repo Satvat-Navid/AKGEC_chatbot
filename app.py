@@ -1,4 +1,3 @@
-import time
 import json
 import streamlit as st
 from pinecone.grpc import PineconeGRPC as Pinecone

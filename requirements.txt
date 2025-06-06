@@ -2,7 +2,7 @@ numpy
 pandas
 toml
 pinecone[grpc]
-openai
+groq
 langchain
 langchain_community
 streamlit
