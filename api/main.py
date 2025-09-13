@@ -15,7 +15,7 @@ app.add_middleware(
     allow_headers=["*"],  # Allows all headers
 )
 
-@app.post("/chat")
+@app.post("api/chat")
 def chat(request: ChatRequest):
     start_time = time.time()
 
