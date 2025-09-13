@@ -20,8 +20,8 @@
     ],
     "routes": [
         {
-            "src": "/api/*",
-            "dest": "/api/main.py"
+            "src": "/api/(.*)",
+            "dest": "main.py"
         },
         {
             "src": "/script.js",
