@@ -11,7 +11,7 @@ index = pc.Index('akgec-data')
 
 # Model selection
 TOOL_MODEL = "llama-3.3-70b-versatile"
-GENERAL_MODEL = "llama3-70b-8192"
+GENERAL_MODEL = "openai/gpt-oss-120b"
 
 # Similarity Search and context retrival from pinecone.
 def get_context(prompt, k=3):
@@ -42,7 +42,7 @@ def summerize(model, chat, max_tokens=500):
     summery = client.chat.completions.create(
         model=model,
         messages=[
-            {"role": "system", "content": "You are responsible for summarizing the conversation history in a clear and concise manner to establish context for subsequent interactions with the large language model. The summary must preserve all information without omissions and present it in chronological order."},
+            {"role": "system", "content": "You are responsible for summarizing the conversation history in a clear and concise manner to establish context for subsequent interactions with the large language model. The summary must preserve all information without omissions and present it in chronological order. Do not return markdown test, only return in a json format. "},
             {"role": "user", "content": chat}
         ],
         max_tokens=max_tokens,
@@ -64,7 +64,7 @@ def context(model, message):
                         "properties": {
                             "prompt": {
                                 "type": "string",
-                                "description": "The prompt to search the relevant data in vector data base. Prompt to retrive maximum information and specific regarding that topic. ",
+                                "description": "The prompt to search the relevant data in vector data base. Prompt to retrive information about the person, thing or specifically regarding that topic. ",
                             }
                         },
                         "required": ["prompt"],
@@ -94,12 +94,13 @@ def context(model, message):
         function_to_call = get_context
         function_args = json.loads(tool_calls[0].function.arguments)
 
-        print(function_args.get("prompt"))
+        # print("oooooo>", function_args.get("prompt"))
 
         # Call the tool and get the response
         function_response = function_to_call(
             prompt=function_args.get("prompt")
         )
+        function_response += f"\n>>>>>>>{function_args.get("prompt")}"
         # Add the tool response to the conversation
         message.append(
             {
@@ -155,7 +156,7 @@ while True:
          Maintain a contextual approach . Do not use tool if user greets or thanks .
          Add all the necessary detail in the PROMPT from the conversation history ."""},
         {"role": "assistant", "content": f"A chronological summary of the conversation history: {history}."},
-        {"role": "user", "content": "hello"}
+        {"role": "user", "content": ""}
     ]
     for i in range(chat_limit):
         query = input("Query: ")
@@ -172,8 +173,8 @@ while True:
         print("history:---------", history , "\n")
         print(len(history)/4)
         db_context = context(model=TOOL_MODEL, message=M1) 
-        temp = f""" PREVIOUS : "{history}" QUERY : "{query}" ANSWER : "{db_context}" """
-        reply = response(GENERAL_MODEL, query, db_context )
+        reply = response(GENERAL_MODEL, query, db_context, history )
+        temp = f""" PREVIOUS : "{history}" QUERY : "{query}" ANSWER : "{reply}" """
         history = temp
         # print(answer.tool_calls)
         print(f"context:--------\n {db_context} \n")

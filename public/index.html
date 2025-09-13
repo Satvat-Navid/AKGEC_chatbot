@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AKGEC</title>
+
+    <link rel="icon" type="image/png" href="AKGEC_icon.png">
+
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+<body class="dark-theme">
+
+    <div class="chat-container">
+        <div class="chat-header">
+            <h2>AKGEC BOT</h2>
+            <div class="theme-switch-wrapper">
+                <span class="material-symbols-outlined">light_mode</span>
+                <label class="theme-switch">
+                    <input type="checkbox" id="theme-slider" checked>
+                    <span class="slider round"></span>
+                </label>
+                <span class="material-symbols-outlined">dark_mode</span>
+            </div>
+        </div>
+
+        <div class="chatbox" id="chatbox">
+            <div class="chat-message bot">
+                <p>Jai Hind! How can I help you? 😊</p>
+            </div>
+        </div>
+
+        <div class="chat-input-area">
+            <div class="input-wrapper">
+                <textarea id="user-input" placeholder="Enter your query..." rows="1"></textarea>
+                <button id="send-btn" class="send-button">
+                    <span class="material-symbols-outlined">send</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

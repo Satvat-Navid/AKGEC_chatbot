@@ -10,7 +10,7 @@ index = pc.Index('akgec-data')
 
 # Model selection
 TOOL_MODEL = "llama-3.3-70b-versatile"
-GENERAL_MODEL = "llama3-70b-8192"
+GENERAL_MODEL = "openai/gpt-oss-120b"
 
 # Similarity Search and context retrival from pinecone.
 def get_context(prompt, k=3):

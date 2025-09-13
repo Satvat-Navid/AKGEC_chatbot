@@ -6,4 +6,7 @@ groq
 langchain
 langchain_community
 streamlit
-ipykernel
+fastapi
+uvicorn
+python-dotenv
+pydantic
