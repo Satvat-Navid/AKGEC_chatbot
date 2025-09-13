@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from models import ChatRequest
-from agents import get_context, summerize, response, GENERAL_MODEL, TOOL_MODEL
+from .models import ChatRequest
+from .agents import get_context, summerize, response, GENERAL_MODEL, TOOL_MODEL
 import time
 
 app = FastAPI(title="AKGEC Chatbot API")
