@@ -20,7 +20,7 @@
     ],
     "routes": [
         {
-            "src": "/api/(.*)",
+            "src": "/api/chat",
             "dest": "/api/main.py"
         },
         {
