@@ -21,7 +21,7 @@
     "routes": [
         {
             "src": "/api/(.*)",
-            "dest": "/api/chat"
+            "dest": "/api/main.py"
         },
         {
             "src": "/script.js",
