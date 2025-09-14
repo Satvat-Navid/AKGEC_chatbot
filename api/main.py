@@ -21,7 +21,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.post("/chat")
+# @app.post("/chat")
+@app.post("/")
 def chat(request: ChatRequest):
     request_start_time = time.time()
     logger.info("--- New Chat Request Received ---")
