@@ -2,3 +2,4 @@
 .streamlit/
 test/
 .env
+__pycache__/

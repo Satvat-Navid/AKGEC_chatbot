@@ -17,6 +17,9 @@
     --light-user-msg-bg: #d9e7fb;
     --light-send-btn: #1a73e8;
     --light-send-btn-hover: #185abc;
+    --light-box-shadow: -3px 4px 20px 5px rgba(0, 0, 0, 0.2);
+    --light-wrapper-shadow: -2px 2px 15px 5px rgba(0, 0, 0, 0.2);
+    --light-chatbox-shadow: inset  2px 15px 1px rgba(0, 0, 0, 0.2);
 
     --dark-bg: #131314;
     --dark-chat-bg: #1e1f20;
@@ -27,6 +30,9 @@
     --dark-user-msg-bg: #4c5155;
     --dark-send-btn: #8ab4f8;
     --dark-send-btn-hover: #a5c6fa;
+    --dark-box-shadow: -2px 4px 20px 5px rgba(255, 255, 255, 0.2);
+    --dark-wrapper-shadow: -1px 2px 15px 1px rgba(255, 255, 255, 0.2);
+    --dark-chatbox-shadow: inset  2px 15px 1px rgba(255, 255, 255, 0.2);
 }
 
 body {
@@ -55,18 +61,19 @@ body.dark-theme {
     display: flex;
     flex-direction: column;
     border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     overflow: hidden;
-    transition: background-color 0.3s;
+    transition: background-color 0.5s;
     position: relative; /* Make this a positioning context */
     padding-bottom: 100px; /* Add space at the bottom for the floating input */
 }
 
 .light-theme .chat-container {
     background-color: var(--light-chat-bg);
+    box-shadow: var(--light-box-shadow);
 }
 .dark-theme .chat-container {
     background-color: var(--dark-chat-bg);
+    box-shadow: var(--dark-box-shadow);
 }
 
 
@@ -108,7 +115,7 @@ body.dark-theme {
     right: 0;
     bottom: 0;
     background-color: #ccc;
-    transition: .4s;
+    transition: .5s;
 }
 .slider.round {
     border-radius: 34px;
@@ -141,6 +148,16 @@ input:checked + .slider:before {
     gap: 1rem;
 }
 
+/* shadow effect on chatbox */
+
+/* .light-theme .chatbox {
+    box-shadow: var(--light-chatbox-shadow);
+    
+}
+.dark-theme .chatbox { 
+    box-shadow: var(--dark-chatbox-shadow);
+} */
+
 .chat-message {
     max-width: 75%;
     padding: 0.8rem 2rem;
@@ -168,10 +185,10 @@ input:checked + .slider:before {
 .chat-message.bot {
     align-self: flex-start;
     border-bottom-left-radius: 4px;
-    max-width: 90%;
+    max-width: 95%;
 }
-.light-theme .chat-message.bot { background-color: var(--light-bot-msg-bg); }
-.dark-theme .chat-message.bot { background-color: var(--dark-bot-msg-bg); }
+/* .light-theme .chat-message.bot { background-color: var(--light-bot-msg-bg); }
+.dark-theme .chat-message.bot { background-color: var(--dark-bot-msg-bg); } */
 
 .chat-message.bot.loading p {
     animation: blink 1.5s infinite;
@@ -198,10 +215,18 @@ input:checked + .slider:before {
     border-radius: 28px;
     padding: 0.5rem 0.75rem 0.5rem 1.2rem; 
     transition: background-color 0.3s;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
 }
-.light-theme .input-wrapper { background-color: var(--light-input-bg); }
-.dark-theme .input-wrapper { background-color: var(--dark-input-bg); }
+.light-theme .input-wrapper {
+    /* border: 0.5px solid #000000; */
+    background-color: var(--light-input-bg);
+    box-shadow: var(--light-wrapper-shadow);
+    
+}
+.dark-theme .input-wrapper { 
+    border: 1px solid #959595;
+    background-color: var(--dark-input-bg);
+    box-shadow: var(--dark-wrapper-shadow);
+}
 
 
 textarea {
@@ -239,3 +264,26 @@ textarea::placeholder {
 
 .light-theme .send-button:hover { background-color: var(--light-send-btn-hover); color: white; }
 .dark-theme .send-button:hover { background-color: var(--dark-send-btn-hover); color: var(--dark-chat-bg); }
+
+/* To disable text area */
+
+textarea:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.send-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.light-theme .send-button:disabled:hover,
+.dark-theme .send-button:disabled:hover {
+    background-color: transparent; /* Prevent hover effect when disabled */
+    color: var(--dark-send-btn); /* Or whatever the default color is */
+}
+
+/* For light theme specifically if needed */
+.light-theme .send-button:disabled:hover {
+    color: var(--light-send-btn);
+}

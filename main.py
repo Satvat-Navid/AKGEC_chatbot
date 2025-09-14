@@ -23,7 +23,7 @@ app.add_middleware(
 
 @app.post("/api/chat")
 def chat(request: ChatRequest):
-    logger.info(f"Received request: {request.message}")
+    logger.info(f"Received query: {request.message}")
     try:
         history = summerize(GENERAL_MODEL, request.history, 500) if request.history else ""
         db_context = get_context(request.message)

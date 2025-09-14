@@ -138,7 +138,7 @@ def context(message):
         function_response = function_to_call(
             prompt=function_args.get("prompt")
         )
-        function_response += f"\n>>>>>>>{function_args.get("prompt")}"
+        function_response += f"\n\n>>>>>>>{function_args.get("prompt")}"
         # Add the tool response to the conversation
         messages.append(
             {
