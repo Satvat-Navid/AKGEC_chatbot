@@ -18,8 +18,8 @@
     --light-send-btn: #1a73e8;
     --light-send-btn-hover: #185abc;
     --light-box-shadow: -3px 4px 20px 5px rgba(0, 0, 0, 0.2);
-    --light-wrapper-shadow: -2px 2px 15px 5px rgba(0, 0, 0, 0.2);
-    --light-chatbox-shadow: inset  2px 15px 1px rgba(0, 0, 0, 0.2);
+    --light-wrapper-shadow: 0px 5px 15px 5px rgba(0, 0, 0, 0.2);
+    --light-inputarea-shadow: 0px -10px 20px 10px rgba(255, 255, 255, 0.8);
 
     --dark-bg: #131314;
     --dark-chat-bg: #1e1f20;
@@ -31,8 +31,8 @@
     --dark-send-btn: #8ab4f8;
     --dark-send-btn-hover: #a5c6fa;
     --dark-box-shadow: -2px 4px 20px 5px rgba(255, 255, 255, 0.2);
-    --dark-wrapper-shadow: -1px 2px 15px 1px rgba(255, 255, 255, 0.2);
-    --dark-chatbox-shadow: inset  2px 15px 1px rgba(255, 255, 255, 0.2);
+    --dark-wrapper-shadow: 0px 5px 15px 3px rgba(255, 255, 255, 0.2);
+    --dark-inputarea-shadow: 0px -10px 20px 10px #1e1f20d6;
 }
 
 body {
@@ -41,6 +41,7 @@ body {
     align-items: center;
     min-height: 100vh;
     transition: background-color 0.3s, color 0.3s;
+    padding: 1rem;
 }
 
 body.light-theme {
@@ -64,7 +65,7 @@ body.dark-theme {
     overflow: hidden;
     transition: background-color 0.5s;
     position: relative; /* Make this a positioning context */
-    padding-bottom: 100px; /* Add space at the bottom for the floating input */
+    padding-bottom: 80px; /* Add space at the bottom for the floating input */
 }
 
 .light-theme .chat-container {
@@ -171,7 +172,7 @@ input:checked + .slider:before {
 
 .chat-message p {
     white-space: pre-wrap;
-    overflow-wrap: break-word; /* Add this line */
+    overflow-wrap: break-word;
 }
 
 .chat-message.user {
@@ -207,6 +208,16 @@ input:checked + .slider:before {
     transform: translateX(-50%);
     width: 95%;       /* Make it slightly smaller than the container */
     max-width: 760px;
+    /* box-shadow: 0px -10px 20x 10px rgb(255, 255, 255); */
+}
+
+.dark-theme .chat-input-area{
+    box-shadow: var(--dark-inputarea-shadow);
+    /* box-shadow:  0px -10px 20x 10px rgb(255, 255, 255); */
+}
+.light-theme .chat-input-area{
+    box-shadow: var(--light-inputarea-shadow);
+    /* box-shadow:  0px -10px 20x 10px rgb(255, 255, 255); */
 }
 
 .input-wrapper {
