@@ -28,17 +28,9 @@ async def custom_rate_limit_exceeded_handler(request: Request, exc: RateLimitExc
     return JSONResponse(
         status_code=429,
         content={"detail": f"Rate limit exceeded: {exc.detail}",
-                "error": "Too Many Requests",
-                "reply": "Woah! 🤯 My brain went 💨! You're on fire with the questions! 🔥 Let me cool down for just a minute... 🧊 and I'll be ready for more!",
-                "context_used": "",
-                "history": ""
+                "error": "Too Many Requests"
         }
     )
-    # return {
-    #     "reply": "fWoah! 🤯 My brain went 💨! You're on fire with the questions! 🔥 Let me cool down for just a minute... 🧊 and I'll be ready for more!",
-    #     "context_used": "",
-    #     "history": ""
-    # }
 
 # Add CORS middleware
 app.add_middleware(

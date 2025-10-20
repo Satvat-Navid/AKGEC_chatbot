@@ -159,7 +159,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } catch (error) {
             thinkingMessage.querySelector("p").textContent = "Oops! Something went wrong. Please try again.";
             thinkingMessage.classList.remove("loading");
-            console.error("API Error:", error);
+            // console.error("API Error:", error);
         } finally {
         // ALWAYS RE-ENABLE INPUTS AFTER RESPONSE OR ERROR
         isBotThinking = false;
@@ -187,9 +187,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 }),
             });
 
-            // if (!response.ok) {
-            //     throw new Error(`Network response was not ok: ${response.statusText}`);
-            // }
+            if (response.status === 429) {
+                return "Woah! 🤯 My brain went 💨! You're on fire with the questions! 🔥 Let me cool down for just a minute... 🧊 and I'll be ready for more!";
+            }
+
+            if (!response.ok) {
+                throw new Error(`Network response was not ok: ${response.statusText}`);
+            }
 
             const data = await response.json();
             console.log(data)
