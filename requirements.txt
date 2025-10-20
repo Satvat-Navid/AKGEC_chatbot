@@ -5,3 +5,4 @@ pydantic
 pinecone[grpc]
 groq
 slowapi
+instructor
