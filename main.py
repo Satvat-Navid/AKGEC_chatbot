@@ -3,7 +3,6 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import JSONResponse
-from starlette.requests import Request as StarletteRequest
 
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
@@ -28,8 +27,18 @@ app.state.limiter = limiter
 async def custom_rate_limit_exceeded_handler(request: Request, exc: RateLimitExceeded):
     return JSONResponse(
         status_code=429,
-        content={"detail": f"Rate limit exceeded: {exc.detail}", "error": "Too Many Requests"},
+        content={"detail": f"Rate limit exceeded: {exc.detail}",
+                "error": "Too Many Requests",
+                "reply": "Woah! 🤯 My brain went 💨! You're on fire with the questions! 🔥 Let me cool down for just a minute... 🧊 and I'll be ready for more!",
+                "context_used": "",
+                "history": ""
+        }
     )
+    # return {
+    #     "reply": "fWoah! 🤯 My brain went 💨! You're on fire with the questions! 🔥 Let me cool down for just a minute... 🧊 and I'll be ready for more!",
+    #     "context_used": "",
+    #     "history": ""
+    # }
 
 # Add CORS middleware
 app.add_middleware(

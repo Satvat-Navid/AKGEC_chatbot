@@ -8,8 +8,8 @@ class ChatRequest(BaseModel):
         max_length=256  # Prevent excessively long messages
     )
     history: str = Field(
-        ...,  # The '...' means this field is required
+        ...,
         title="Conversation History",
         description="The History used for LLM to remember the coversation",
-        max_length=2000  # Prevent excessively long messages
+        max_length=2000
     )
