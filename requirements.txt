@@ -6,3 +6,5 @@ pinecone[grpc]
 groq
 slowapi
 instructor
+crawl4ai
+ipykernel

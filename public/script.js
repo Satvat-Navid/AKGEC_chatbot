@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const sendBtn = document.getElementById("send-btn");
     const themeSlider = document.getElementById("theme-slider");
     let isBotThinking = false;
+    let history = "";
 
     // Function to add a message to the chatbox
     const addMessage = (message, sender) => {
@@ -170,12 +171,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     };
 
-    let history = "";
-    // This is the function that calls your FastAPI backend
+    // This is the function that calls  FastAPI backend
     const getBotResponse = async (message) => {
         
         try {
-            // const response = await fetch("/api/chat", {
             const response = await fetch("/api/chat", {
                 method: "POST",
                 headers: {
@@ -191,15 +190,21 @@ document.addEventListener("DOMContentLoaded", () => {
                 return "Woah! 🤯 My brain went 💨! You're on fire with the questions! 🔥 Let me cool down for just a minute... 🧊 and I'll be ready for more!";
             }
 
+            if (response.status === 422) {
+                return "Your Question is too large to understand 💭 or Is it hard 🤔 ";
+            }
+
             if (!response.ok) {
-                throw new Error(`Network response was not ok: ${response.statusText}`);
+                const errorText = await response.text();
+                console.error('Server error:', errorText);
             }
 
             const data = await response.json();
             console.log(data)
-            history = `${data.history ? data.history + '\n' : ''}user: ${message}\n reply: ${data.reply}`;
+            history = `${data.history ? data.history + '\n' : ''}user: ${message}\nreply: ${data.reply}`;
             return data.reply; // Return the reply from the backend
-        } catch (error) {
+        } 
+        catch (error) {
             console.error("Error in getBotResponse:", error);
             // **FIXED**: Removed calls to undefined functions. Re-throw the error
             // so the outer catch block in handleSendMessage can display the error message.

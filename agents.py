@@ -70,8 +70,8 @@ async def summerize(chat, model=GENERAL_MODEL, max_tokens=512):
                 # "history_len": len(summery.choices[0].message.content)/4
                            
     except Exception as e:
+        # print(e)
         return "Error occured while summerizing history."
-                # "history_len": len(summery.choices[0].message.content)/4
 
 # Pinecone Vector db search
 def retrive_context(query, k=2):
@@ -87,6 +87,7 @@ def retrive_context(query, k=2):
         )
         results = index.query(
             namespace="doc1",
+            # namespace="fit-markdown-data",
             vector=query_embedding[0].values,
             top_k=k,
             include_values=False,
@@ -103,7 +104,7 @@ def retrive_context(query, k=2):
     except Exception as e:
         # print(e)
         return {"query": query,
-                "context": e,
+                "context": "Error in Context retrival",
                 "context_len": 0}
  
 # Function for specify the query for context generation.
@@ -164,7 +165,6 @@ async def context(message, model=TOOL_MODEL, history=""):
     # Extract the response and any tool call responses
     # response_message = response.choices[0].message
     tool_calls = response.tool_calls
-    function_response = ""
     if tool_calls:
         # # Add the LLM's response to the conversation
         # messages.append(response_message)
